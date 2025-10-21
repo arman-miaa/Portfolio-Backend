@@ -2,6 +2,7 @@ import compression from "compression";
 import cors from "cors";
 import express from "express";
 import path from "path";
+import { router } from "./routes";
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(
   })
 );
 
+
+app.use("/api/v1",router)
 
 // Home route
 app.get("/", (_req, res) => {
