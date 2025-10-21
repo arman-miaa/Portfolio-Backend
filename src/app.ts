@@ -1,6 +1,6 @@
 import compression from "compression";
 import cors from "cors";
-import express from "express";
+import express, { Request, Response } from "express";
 import path from "path";
 import { router } from "./routes";
 
@@ -23,14 +23,14 @@ app.use("/api/v1",router)
 
 
 // Home route
-app.get("/", (_req, res) => {
+app.get("/", (_req:Request, res:Response) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 
 
 // 404 Handler
-app.use((_req, res) => {
+app.use((_req:Request, res:Response) => {
   res.status(404).json({
     success: false,
     message: "Route Not Found",
