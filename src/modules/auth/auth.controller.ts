@@ -21,7 +21,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
         .json({ success: false, message: "Email and password are required" });
     }
 
-    
+
    
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -63,7 +63,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false,error, message: "Server error" });
   }
 };
 
