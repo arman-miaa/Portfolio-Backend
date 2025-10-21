@@ -1,5 +1,5 @@
-const loginWithEmailAndPassword = () => {
-  console.log("user Logged In succsfully");
-};
+// const loginWithEmailAndPassword = () => {
+//   console.log("user Logged In succsfully");
+// };
 
-export const AuthController = {loginWithEmailAndPassword}
+// export const AuthController = {loginWithEmailAndPassword}
