@@ -1,4 +1,4 @@
-// src/config/db.ts
+
 import pkg from "@prisma/client";
 
 

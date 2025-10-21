@@ -67,4 +67,26 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const AuthController = { loginWithEmailAndPassword };
+
+
+const logout = async (req: Request, res: Response) => {
+  try {
+   
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+    });
+
+    return res.json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ success: false, message: "Logout failed" });
+  }
+};
+
+
+export const AuthController = { loginWithEmailAndPassword,logout };
