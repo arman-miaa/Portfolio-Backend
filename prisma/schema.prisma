@@ -25,3 +25,12 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Blog {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  thumbnail   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
