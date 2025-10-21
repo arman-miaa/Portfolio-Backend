@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const prisma = new PrismaClient();
 
-async function main() {
+async function seed() {
   const email = process.env.ADMIN_EMAIL!;
   const password = process.env.ADMIN_PASSWORD!;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -28,15 +28,8 @@ async function main() {
   });
 
 
-  console.log("✅ Admin user created:", admin.email);
+  console.log("user seeded successfully", admin.email);
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+
+export default seed;
