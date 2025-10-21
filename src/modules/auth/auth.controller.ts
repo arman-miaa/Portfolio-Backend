@@ -9,6 +9,8 @@ const sanitizeUser = (user: any) => {
   return rest;
 };
 
+
+
 const loginWithEmailAndPassword = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -19,6 +21,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
         .json({ success: false, message: "Email and password are required" });
     }
 
+    
    
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
@@ -47,8 +50,8 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       // sameSite: "strict",
-      // sameSite: "none",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      sameSite: "none",
+  
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 দিন
     });
 
