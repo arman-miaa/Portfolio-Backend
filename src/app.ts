@@ -1,5 +1,6 @@
 import compression from "compression";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import express, { Request, Response } from "express";
 import path from "path";
 import { router } from "./routes";
@@ -7,7 +8,7 @@ import { router } from "./routes";
 const app = express();
 
 // Middleware
-
+app.use(cookieParser()); 
 app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
 app.use(
