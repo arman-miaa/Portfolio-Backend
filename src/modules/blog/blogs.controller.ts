@@ -3,9 +3,14 @@ import { blogService } from "./blogs.service";
 
 // Create
 const createBlog = async (req: Request, res: Response) => {
-  try {
-    const result = await blogService.createBlog(req.body);
-    return res.status(201).json(result);
+    try {
+      
+   console.log("Request body:", req.body);
+   const result = await blogService.createBlog(req.body);
+   console.log("Created blog:", result);
+   return res.status(201).json(result);
+
+      
   } catch (error: unknown) {
     console.error(error);
     return res.status(500).json({

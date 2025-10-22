@@ -2,7 +2,7 @@ import { Prisma, Blog } from "@prisma/client";
 import { prisma } from "../../config/db";
 
 const createBlog = async (payload: Prisma.BlogCreateInput): Promise<Blog> => {
-    console.log(payload,"payload data");
+    
   return prisma.blog.create({ data: payload });
 };
 
