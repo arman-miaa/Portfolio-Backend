@@ -47,5 +47,13 @@ model Project {
   updatedAt   DateTime  @updatedAt
 }
 
+model Skill {
+  id        Int      @id @default(autoincrement())
+  category  String   
+  name      String
+  createdAt DateTime @default(now())
+}
+
+
 
 
