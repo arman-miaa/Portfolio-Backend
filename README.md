@@ -1,21 +1,20 @@
 
-
 ## 🚀 Portfolio Backend (Express + Prisma + JWT)
 
-📖 Overview
+📖 **Overview**
 
 This is the backend server for my personal portfolio project.
 It handles all authentication, blog management, and data APIs for the frontend.
-Built using Express.js, Prisma ORM, and PostgreSQL, this backend is designed with TypeScript for type safety, scalability, and maintainability.
+Built using **Express.js**, **Prisma ORM**, and **PostgreSQL**, this backend is designed with **TypeScript** for type safety, scalability, and maintainability.
 
-The architecture follows a modular structure, separating each feature (like auth, blog) into independent modules for cleaner and reusable code.
-It also includes secure JWT-based authentication, bcrypt password hashing, and centralized error handling to ensure robust API performance.
+The architecture follows a modular structure, separating each feature (like auth, blog, projects, skills, experiences, etc.) into independent modules for cleaner and reusable code.
+It also includes secure **JWT-based authentication**, **bcrypt password hashing**, and **centralized error handling** to ensure robust API performance.
 
 ---
 
 ### 🌐 Live Server
 
-🔗 **Backend API:** [https://arman-portfolio-backend.vercel.app/](https://arman-portfolio-backend.vercel.app/)
+🔗 **Backend API:** [https://portfolio-backend36.vercel.app/](https://portfolio-backend36.vercel.app/)
 
 ---
 
@@ -30,7 +29,7 @@ It also includes secure JWT-based authentication, bcrypt password hashing, and c
 | Database       | PostgreSQL                 |
 | Authentication | JWT + bcrypt               |
 | Deployment     | Vercel                     |
-| Notifications  | react-hot-toast (frontend) |
+
 
 ---
 
@@ -40,8 +39,8 @@ It also includes secure JWT-based authentication, bcrypt password hashing, and c
 
 * Secure **JWT-based authentication**
 * **bcrypt** password hashing
-* Middleware for **protected routes** (only admin can manage blogs)
-* Admin user seeded automatically for login
+* Middleware for **protected routes**
+* Admin user **seeded automatically** for login
 
 #### 📝 Blog Management (Admin Only)
 
@@ -49,10 +48,15 @@ It also includes secure JWT-based authentication, bcrypt password hashing, and c
 * Each blog includes `title`, `content`, `author`, and `createdAt`
 * Public endpoints for reading blogs
 
-#### 🌍 Public Endpoints
+#### 💼 Projects, Skills & Experience
 
-* Fetch all blogs or a single blog
-* Display blogs dynamically via ISR in frontend
+* APIs for dynamic project showcase, skill list, and experience timeline
+* Data fetched dynamically for frontend sections like *About Me* and *Projects*
+
+#### 💬 Contact & Messages
+
+* Public contact form integration
+* Stores messages securely in database for admin view
 
 #### ⚙️ Error Handling
 
@@ -62,13 +66,7 @@ It also includes secure JWT-based authentication, bcrypt password hashing, and c
 
 ---
 
-### 👤 Admin Credentials (for testing)
 
-| Email               | Password     |
-| ------------------- | ------------ |
-| `admin@example.com` | `Admin@1234` |
-
-> 🧩 *This is a demo admin account seeded automatically for testing.*
 
 ---
 
@@ -84,6 +82,12 @@ Portfolio-Backend/
 │   │   ├── 20251015025753_table/
 │   │   ├── 20251015030013_make_email_unique/
 │   │   ├── 20251021154655_add_blog_table/
+│   │   ├── 20251022013807_projects_tables/
+│   │   ├── 20251022080403_add_skill_model/
+│   │   ├── 20251022111925_add_contactinfo_model/
+│   │   ├── 20251022113710_add_contact_message/
+│   │   ├── 20251022122842_add_experence_model/
+│   │   ├── 20251022124010_update_experience_model/
 │   │   └── migration_lock.toml
 │   └── schema.prisma
 ├── public/
@@ -96,13 +100,12 @@ Portfolio-Backend/
 │   ├── middleware/auth.middleware.ts
 │   ├── modules/
 │   │   ├── auth/
-│   │   │   ├── auth.controller.ts
-│   │   │   ├── auth.route.ts
-│   │   │   └── auth.service.ts
-│   │   └── blog/
-│   │       ├── blogs.controller.ts
-│   │       ├── blogs.routes.ts
-│   │       └── blogs.service.ts
+│   │   ├── blog/
+│   │   ├── projects/
+│   │   ├── skill/
+│   │   ├── experiences/
+│   │   ├── contact/
+│   │   └── contactMessage/
 │   ├── routes/index.ts
 │   └── types/index.ts
 ├── package.json
@@ -155,10 +158,14 @@ pnpm run dev
 
 #### 🔓 Public Routes
 
-| Method | Endpoint         | Description     |
-| ------ | ---------------- | --------------- |
-| GET    | `/api/blogs`     | Get all blogs   |
-| GET    | `/api/blogs/:id` | Get single blog |
+| Method | Endpoint           | Description          |
+| ------ | ------------------ | -------------------- |
+| GET    | `/api/blogs`       | Get all blogs        |
+| GET    | `/api/blogs/:id`   | Get single blog      |
+| GET    | `/api/projects`    | Get all projects     |
+| GET    | `/api/skills`      | Get all skills       |
+| GET    | `/api/experiences` | Get experiences      |
+| POST   | `/api/contact`     | Send contact message |
 
 #### 🔒 Private Routes (Admin Only)
 
@@ -173,9 +180,7 @@ pnpm run dev
 
 ### 🧩 Environment Variables
 
-Example `.env` file:
-
-```
+```env
 DATABASE_URL="postgresql://user:password@localhost:5432/portfolio_db"
 JWT_SECRET="your_jwt_secret_key"
 PORT=5000
@@ -185,20 +190,12 @@ PORT=5000
 
 ### 🧪 Testing API with Postman
 
-**Login:**
 
-```
-POST https://arman-portfolio-backend.vercel.app/api/auth/login
-{
-  "email": "admin@example.com",
-  "password": "Admin@1234"
-}
-```
 
-**Create Blog:**
+**Create Blog**
 
-```
-POST https://arman-portfolio-backend.vercel.app/api/blogs
+```http
+POST https://portfolio-backend36.vercel.app/api/blogs
 Headers: { Authorization: "Bearer <token>" }
 Body: {
   "title": "My First Blog",
@@ -233,37 +230,18 @@ model Blog {
 
 ---
 
-### 🧱 Error Handling Example
-
-Example of standardized API response:
-
-```json
-{
-  "success": false,
-  "message": "Unauthorized: Invalid token"
-}
-```
-
----
-
 ### 🌍 Deployment
 
-Deployed on **Vercel** using `vercel.json` config for custom Express entry.
-All environment variables are configured securely through the Vercel dashboard.
+Deployed on **Vercel** using `vercel.json` config for Express entry point.
+Environment variables securely managed in **Vercel dashboard**.
 
----
 
-### 🎥 Demo Video
-
-🎬 *10–15 minute walkthrough coming soon — showing login, blog management, API testing, and deployment overview.*
-
----
 
 ### 📎 Useful Links
 
-* 🔗 **Live Backend:** [https://arman-portfolio-backend.vercel.app/](https://arman-portfolio-backend.vercel.app/)
+* 🔗 **Live Backend:** [https://portfolio-backend36.vercel.app/](https://portfolio-backend36.vercel.app/)
 * 💻 **GitHub Repo:** [https://github.com/arman-miaa/Portfolio-Backend](https://github.com/arman-miaa/Portfolio-Backend)
-* 🌐 **Frontend Repo:** *Coming soon*
+
 
 ---
 
@@ -271,20 +249,13 @@ All environment variables are configured securely through the Vercel dashboard.
 
 **Md Arman Mia**
 💼 MERN Stack Developer
-📧 Email: [your-email@example.com](mailto:your-email@example.com)
-🌍 Portfolio: *Coming soon*
+📧 Email: [arman.miaa36@gmail.com](mailto:arman.miaa36@gmail.com)
+🌍 Portfolio: [https://arman-mia.vercel.app](https://arman-mia.vercel.app)
 
 ---
 
 ### 📜 License
 
-This project is licensed under the **MIT License** – free to use and modify with proper attribution.
-
----
-
-### ✅ Status
-
-✔️ Backend Completed & Live
-🚧 Frontend (Next.js + ISR) in progress
+Licensed under the **MIT License** – free to use and modify with attribution.
 
 
