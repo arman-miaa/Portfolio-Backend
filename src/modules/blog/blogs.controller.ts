@@ -5,7 +5,7 @@ import { blogService } from "./blogs.service";
 const createBlog = async (req: Request, res: Response) => {
     try {
       
-   console.log("Request body:", req.body);
+
    const result = await blogService.createBlog(req.body);
    console.log("Created blog:", result);
    return res.status(201).json(result);
