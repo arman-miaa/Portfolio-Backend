@@ -11,8 +11,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser()); 
-app.use(compression()); // Compresses response bodies for faster delivery
-app.use(express.json()); // Parse incoming JSON requests
+app.use(compression()); 
+app.use(express.json()); 
 app.use(
   cors({
     origin: ["http://localhost:3000","https://arman-mia.vercel.app"],
@@ -22,7 +22,7 @@ app.use(
 
 
 app.use("/api/v1",router)
-// app.use("/api/v1",router)
+
 
 
 // Home route
