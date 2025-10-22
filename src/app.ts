@@ -30,7 +30,7 @@ app.get("/", (_req:Request, res:Response) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-//
+
 
 // 404 Handler
 app.use((_req:Request, res:Response) => {
