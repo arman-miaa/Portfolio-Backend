@@ -72,5 +72,23 @@ model ContactMessage {
 }
 
 
+model Experience {
+  id              Int   @id @default(autoincrement())
+  title           String       
+  company         String      
+  position        String?  
+  startDate       DateTime
+  endDate         DateTime?
+  isCurrent       Boolean  @default(false) 
+  description     String
+  certificateImg  String?  
+  technologies    String[] 
+  location        String?   
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+
+
 
 
