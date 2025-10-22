@@ -8,6 +8,8 @@ import { router } from "./routes";
 const app = express();
 
 // Middleware
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser()); 
 app.use(compression()); // Compresses response bodies for faster delivery
 app.use(express.json()); // Parse incoming JSON requests
