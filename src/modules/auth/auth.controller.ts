@@ -21,6 +21,8 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
         .json({ success: false, message: "Email and password are required" });
     }
 
+
+   
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res
@@ -28,6 +30,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
         .json({ success: false, message: "User not found" });
     }
 
+   
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res
@@ -42,18 +45,16 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
       { expiresIn: "7d" }
     );
 
-    // set cookie
-    const isProduction = process.env.NODE_ENV === "production";
-
-    // Login
+    // set cookie 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: isProduction,
+      
+      secure: true,
+      // sameSite: "strict",
       sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
+  
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
-
 
 
     return res.json({
@@ -71,13 +72,11 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
 
 const logout = async (req: Request, res: Response) => {
   try {
-    const isProduction = process.env.NODE_ENV === "production";
-    // Logout
+   
     res.clearCookie("token", {
       httpOnly: true,
-      secure: isProduction,
+      secure: true,
       sameSite: "none",
-      domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
       maxAge: 0,
     });
 
