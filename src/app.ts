@@ -15,7 +15,8 @@ app.use(compression());
 app.use(express.json()); 
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://arman-mia.vercel.app"],
+    // origin: ["http://localhost:3000","https://arman-mia.vercel.app"],
+    origin: "https://arman-mia.vercel.app",
     credentials: true,
   })
 );
