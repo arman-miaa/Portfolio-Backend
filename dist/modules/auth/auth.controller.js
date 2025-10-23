@@ -76,8 +76,9 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.clearCookie("token", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "none",
+            maxAge: 0,
         });
         return res.json({
             success: true,
