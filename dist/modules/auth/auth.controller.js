@@ -53,13 +53,15 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
         }
         // create jwt token
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
-        // set cookie 
+        // set cookie
+        const isProduction = process.env.NODE_ENV === "production";
+        // Login
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            // sameSite: "strict",
+            secure: isProduction,
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000,
+            domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
         });
         return res.json({
             success: true,
@@ -74,10 +76,13 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
 });
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const isProduction = process.env.NODE_ENV === "production";
+        // Logout
         res.clearCookie("token", {
             httpOnly: true,
-            secure: true,
+            secure: isProduction,
             sameSite: "none",
+            domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
             maxAge: 0,
         });
         return res.json({
