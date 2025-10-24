@@ -50,7 +50,7 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
 res.cookie("token", token, {
   httpOnly: true,
   secure: isProd, 
-  sameSite: isProd ? "none" : "lax", 
+  sameSite: "none",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 });
 
@@ -74,7 +74,8 @@ const logout = async (_req: Request, res: Response) => {
 res.clearCookie("token", {
   httpOnly: true,
   secure: isProd,
-  sameSite: isProd ? "none" : "lax",
+  sameSite: "none",
+  maxAge:0
 });
 
 

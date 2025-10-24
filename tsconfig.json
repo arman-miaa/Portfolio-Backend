@@ -9,7 +9,7 @@
     "strict": true,
     "skipLibCheck": true,
     
-    "types": ["node", "express"] // ✅ Express + Node types include করা হলো
+    "types": ["node", "express"] 
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

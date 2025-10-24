@@ -31,6 +31,7 @@ const sanitizeUser = (user) => {
     const { password } = user, rest = __rest(user, ["password"]);
     return rest;
 };
+const isProd = process.env.NODE_ENV === "production";
 const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -53,15 +54,11 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
         }
         // create jwt token
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
-        // set cookie
-        const isProduction = process.env.NODE_ENV === "production";
-        // Login
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
+            secure: isProd,
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
         });
         return res.json({
             success: true,
@@ -74,16 +71,13 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).json({ success: false, error, message: "Server error" });
     }
 });
-const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const logout = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const isProduction = process.env.NODE_ENV === "production";
-        // Logout
         res.clearCookie("token", {
             httpOnly: true,
-            secure: isProduction,
+            secure: isProd,
             sameSite: "none",
-            domain: isProduction ? ".portfolio-backend36.vercel.app" : undefined, // BACKEND DOMAIN
-            maxAge: 0,
+            maxAge: 0
         });
         return res.json({
             success: true,
