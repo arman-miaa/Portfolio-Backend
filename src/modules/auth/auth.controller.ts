@@ -9,7 +9,7 @@ const sanitizeUser = (user: any) => {
   return rest;
 };
 
-
+const isProd = process.env.NODE_ENV === "production";
 
 const loginWithEmailAndPassword = async (req: Request, res: Response) => {
   try {
@@ -45,16 +45,14 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
       { expiresIn: "7d" }
     );
 
-    // set cookie 
-    res.cookie("token", token, {
-      httpOnly: true,
-      
-      secure: true,
-      // sameSite: "strict",
-      sameSite: "none",
-  
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-    });
+
+
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: isProd, 
+  sameSite: isProd ? "none" : "lax", 
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
 
     return res.json({
@@ -70,15 +68,15 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
 
 
 
-const logout = async (req: Request, res: Response) => {
+const logout = async (_req: Request, res: Response) => {
   try {
    
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 0,
-    });
+res.clearCookie("token", {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: isProd ? "none" : "lax",
+});
+
 
     return res.json({
       success: true,
