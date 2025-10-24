@@ -13,24 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 app.use(compression()); 
 app.use(express.json()); 
-const allowedOrigins = [
-  "http://localhost:3000", 
-  "https://arman-mia.vercel.app", 
-];
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "http://localhost:3000",
+      "https://arman-mia.vercel.app",
+      process.env.FRONTEND_URL!,
+    ],
     credentials: true,
   })
 );
-
 
 
 app.use("/api/v1",router)
