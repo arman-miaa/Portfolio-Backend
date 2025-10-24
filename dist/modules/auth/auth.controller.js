@@ -57,7 +57,8 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
         res.cookie("token", token, {
             httpOnly: true,
             secure: isProd,
-            sameSite: "none",
+            // sameSite: "none",
+            sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return res.json({

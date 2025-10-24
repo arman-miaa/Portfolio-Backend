@@ -15,19 +15,12 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 app.use((0, compression_1.default)());
 app.use(express_1.default.json());
-const allowedOrigins = [
-    "http://localhost:3000",
-    "https://arman-mia.vercel.app",
-];
 app.use((0, cors_1.default)({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
+    origin: [
+        "http://localhost:3000",
+        "https://arman-mia.vercel.app",
+        process.env.FRONTEND_URL,
+    ],
     credentials: true,
 }));
 app.use("/api/v1", routes_1.router);
