@@ -6,6 +6,7 @@ import { skillRoute } from "../modules/skill/skill.routes";
 import { contactRoute } from "../modules/contact/contact.routes";
 import { contactMessageRoute } from "../modules/contactMessage/contactMessage.route";
 import { experienceRoutes } from "../modules/experiences/experience.route";
+import { overviewRoute } from "../modules/overview/overview.route";
 
 
 export const router = Router();
@@ -38,6 +39,10 @@ const moduleRoutes = [
   {
     path: "/experience",
     route: experienceRoutes,
+  },
+  {
+    path: "/overview",
+    route: overviewRoute,
   },
 ];
 
