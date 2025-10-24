@@ -8,7 +8,7 @@
     "build": "tsc && prisma generate",
     "start": "node dist/server.js",
     "lint": "npx eslint ./src",
-    "postinstall": "pnpx prisma generate"
+    "postinstall": " prisma generate"
   },
   "keywords": [],
   "author": "Arman Mia",
