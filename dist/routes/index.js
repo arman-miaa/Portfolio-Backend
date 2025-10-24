@@ -9,6 +9,7 @@ const skill_routes_1 = require("../modules/skill/skill.routes");
 const contact_routes_1 = require("../modules/contact/contact.routes");
 const contactMessage_route_1 = require("../modules/contactMessage/contactMessage.route");
 const experience_route_1 = require("../modules/experiences/experience.route");
+const overview_route_1 = require("../modules/overview/overview.route");
 exports.router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -38,6 +39,10 @@ const moduleRoutes = [
     {
         path: "/experience",
         route: experience_route_1.experienceRoutes,
+    },
+    {
+        path: "/overview",
+        route: overview_route_1.overviewRoute,
     },
 ];
 moduleRoutes.forEach((route) => {
