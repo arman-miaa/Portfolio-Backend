@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../config/db";
 
-
 const sanitizeUser = (user: any) => {
   const { password, ...rest } = user;
   return rest;
@@ -11,32 +10,27 @@ const sanitizeUser = (user: any) => {
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Login
 const loginWithEmailAndPassword = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res
         .status(400)
         .json({ success: false, message: "Email and password are required" });
     }
 
-
-   
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
+    if (!user)
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
-    }
 
-   
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    if (!isMatch)
       return res
         .status(401)
         .json({ success: false, message: "Invalid password" });
-    }
 
     // create jwt token
     const token = jwt.sign(
@@ -45,16 +39,12 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
       { expiresIn: "7d" }
     );
 
-
-
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: isProd,
-  // sameSite: "none",
-  sameSite: isProd ? "none" : "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
-
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.json({
       success: true,
@@ -63,22 +53,19 @@ res.cookie("token", token, {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ success: false,error, message: "Server error" });
+    res.status(500).json({ success: false, error, message: "Server error" });
   }
 };
 
-
-
+// Logout
 const logout = async (_req: Request, res: Response) => {
   try {
-   
-res.clearCookie("token", {
-  httpOnly: true,
-  secure: isProd,
-  sameSite: "none",
-  maxAge:0
-});
-
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: "none",
+      maxAge: 0,
+    });
 
     return res.json({
       success: true,
@@ -90,5 +77,33 @@ res.clearCookie("token", {
   }
 };
 
+// Get current logged-in user
+const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const token = req.cookies.token;
+    if (!token)
+      return res
+        .status(401)
+        .json({ success: false, message: "Not authenticated" });
 
-export const AuthController = { loginWithEmailAndPassword,logout };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: number;
+    };
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+
+    return res.json({ success: true, user: sanitizeUser(user) });
+  } catch (error) {
+    console.error("Get current user error:", error);
+    return res.status(401).json({ success: false, message: "Invalid token" });
+  }
+};
+
+export const AuthController = {
+  loginWithEmailAndPassword,
+  logout,
+  getCurrentUser, // ✅ add this
+};

@@ -32,6 +32,7 @@ const sanitizeUser = (user) => {
     return rest;
 };
 const isProd = process.env.NODE_ENV === "production";
+// Login
 const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -41,23 +42,20 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
                 .json({ success: false, message: "Email and password are required" });
         }
         const user = yield db_1.prisma.user.findUnique({ where: { email } });
-        if (!user) {
+        if (!user)
             return res
                 .status(404)
                 .json({ success: false, message: "User not found" });
-        }
         const isMatch = yield bcrypt_1.default.compare(password, user.password);
-        if (!isMatch) {
+        if (!isMatch)
             return res
                 .status(401)
                 .json({ success: false, message: "Invalid password" });
-        }
         // create jwt token
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
         res.cookie("token", token, {
             httpOnly: true,
             secure: isProd,
-            // sameSite: "none",
             sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
@@ -72,13 +70,14 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).json({ success: false, error, message: "Server error" });
     }
 });
+// Logout
 const logout = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.clearCookie("token", {
             httpOnly: true,
             secure: isProd,
             sameSite: "none",
-            maxAge: 0
+            maxAge: 0,
         });
         return res.json({
             success: true,
@@ -90,4 +89,29 @@ const logout = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ success: false, message: "Logout failed" });
     }
 });
-exports.AuthController = { loginWithEmailAndPassword, logout };
+// Get current logged-in user
+const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const token = req.cookies.token;
+        if (!token)
+            return res
+                .status(401)
+                .json({ success: false, message: "Not authenticated" });
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const user = yield db_1.prisma.user.findUnique({ where: { id: decoded.id } });
+        if (!user)
+            return res
+                .status(404)
+                .json({ success: false, message: "User not found" });
+        return res.json({ success: true, user: sanitizeUser(user) });
+    }
+    catch (error) {
+        console.error("Get current user error:", error);
+        return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+});
+exports.AuthController = {
+    loginWithEmailAndPassword,
+    logout,
+    getCurrentUser, // ✅ add this
+};
