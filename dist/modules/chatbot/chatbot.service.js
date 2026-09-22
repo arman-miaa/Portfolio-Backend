@@ -65,7 +65,7 @@ function searchSimilarChunks(embedding_1) {
 // ✅ Gemini দিয়ে AI response generate করো
 function generateAIResponse(context, question) {
     return __awaiter(this, void 0, void 0, function* () {
-        const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-3.8-flash" });
         const prompt = `You are a helpful AI assistant for Arman Mia's portfolio website. 
 Your job is to answer questions about Arman Mia based on the context provided.
 Be friendly, concise, and professional. Answer in the same language the user asks in.
