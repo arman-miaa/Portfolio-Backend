@@ -26,7 +26,7 @@ const chat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.error("Chat error:", error);
         return res
             .status(500)
-            .json({ success: false, message: "AI is temporarily unavailable" });
+            .json({ success: false, message: error instanceof Error ? error.message : "AI is temporarily unavailable" });
     }
 });
 exports.ChatbotController = { chat };

@@ -102,7 +102,7 @@ function ragChat(userMessage) {
         }
         catch (error) {
             console.error("RAG chat error:", error);
-            throw new Error("AI response generation failed");
+            throw error;
         }
     });
 }
