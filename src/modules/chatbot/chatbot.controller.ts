@@ -18,7 +18,7 @@ const chat = async (req: Request, res: Response) => {
     console.error("Chat error:", error);
     return res
       .status(500)
-      .json({ success: false, message: "AI is temporarily unavailable" });
+      .json({ success: false, message: error instanceof Error ? error.message : "AI is temporarily unavailable" });
   }
 };
 

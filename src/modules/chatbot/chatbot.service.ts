@@ -99,6 +99,6 @@ export async function ragChat(userMessage: string): Promise<string> {
     return await generateAIResponse(context, userMessage);
   } catch (error) {
     console.error("RAG chat error:", error);
-    throw new Error("AI response generation failed");
+    throw error;
   }
 }
