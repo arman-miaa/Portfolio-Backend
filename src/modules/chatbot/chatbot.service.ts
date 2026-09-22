@@ -55,7 +55,7 @@ export async function generateAIResponse(
   context: string,
   question: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-3.8-flash" });
 
   const prompt = `You are a helpful AI assistant for Arman Mia's portfolio website. 
 Your job is to answer questions about Arman Mia based on the context provided.
