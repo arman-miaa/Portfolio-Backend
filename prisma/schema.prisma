@@ -88,7 +88,12 @@ model Experience {
   updatedAt       DateTime @updatedAt
 }
 
+model KnowledgeChunk {
+  id        Int      @id @default(autoincrement())
+  topic     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-
-
-
+  @@map("knowledge_chunks")
+}

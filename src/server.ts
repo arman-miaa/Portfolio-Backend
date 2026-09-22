@@ -2,7 +2,8 @@ import http, { Server } from "http";
 import app from "./app";
 import dotenv from "dotenv";
 import { prisma } from "./config/db";
-import seed from "./helpers/seed"
+import seed from "./helpers/seed";
+import { initPgVector } from "./modules/chatbot/chatbot.service";
 dotenv.config();
 
 let server: Server | null = null;
@@ -11,6 +12,7 @@ async function connectToDB() {
   try {
     await prisma.$connect();
     await seed();
+    await initPgVector();
     console.log("✅ DB Connection Successfull!!!");
   } catch (error) {
     console.log("❌ DB Connection Failed");

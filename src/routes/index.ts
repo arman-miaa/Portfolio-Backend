@@ -7,6 +7,8 @@ import { contactRoute } from "../modules/contact/contact.routes";
 import { contactMessageRoute } from "../modules/contactMessage/contactMessage.route";
 import { experienceRoutes } from "../modules/experiences/experience.route";
 import { overviewRoute } from "../modules/overview/overview.route";
+import { chatbotRoute } from "../modules/chatbot/chatbot.route";
+import { knowledgeRoute } from "../modules/knowledge/knowledge.route";
 
 
 export const router = Router();
@@ -43,6 +45,14 @@ const moduleRoutes = [
   {
     path: "/overview",
     route: overviewRoute,
+  },
+  {
+    path: "/chat",
+    route: chatbotRoute,
+  },
+  {
+    path: "/knowledge",
+    route: knowledgeRoute,
   },
 ];
 
