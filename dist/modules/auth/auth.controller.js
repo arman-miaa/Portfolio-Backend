@@ -78,7 +78,7 @@ const logout = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.clearCookie("token", {
             httpOnly: true,
             secure: isProd,
-            sameSite: "none",
+            sameSite: isProd ? "none" : "lax", // ✅ login-এর মতোই consistent
             maxAge: 0,
             path: "/",
         });

@@ -17,6 +17,7 @@ const app_1 = __importDefault(require("./app"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const db_1 = require("./config/db");
 const seed_1 = __importDefault(require("./helpers/seed"));
+const chatbot_service_1 = require("./modules/chatbot/chatbot.service");
 dotenv_1.default.config();
 let server = null;
 function connectToDB() {
@@ -24,6 +25,7 @@ function connectToDB() {
         try {
             yield db_1.prisma.$connect();
             yield (0, seed_1.default)();
+            yield (0, chatbot_service_1.initPgVector)();
             console.log("✅ DB Connection Successfull!!!");
         }
         catch (error) {
