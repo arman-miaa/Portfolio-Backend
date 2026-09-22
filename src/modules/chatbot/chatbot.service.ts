@@ -24,8 +24,11 @@ export async function initPgVector() {
 
 // ✅ Gemini embedding generate করো
 export async function generateEmbedding(text: string): Promise<number[]> {
-  const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
-  const result = await model.embedContent(text);
+  const model = genAI.getGenerativeModel({ model: "gemini-embedding-2" });
+  const result = await model.embedContent({
+    content: { role: "user", parts: [{ text }] },
+    outputDimensionality: 768
+  } as any);
   return result.embedding.values;
 }
 
@@ -52,7 +55,7 @@ export async function generateAIResponse(
   context: string,
   question: string
 ): Promise<string> {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
 
   const prompt = `You are a helpful AI assistant for Arman Mia's portfolio website. 
 Your job is to answer questions about Arman Mia based on the context provided.
