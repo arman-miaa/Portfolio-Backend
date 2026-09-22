@@ -58,11 +58,13 @@ const loginWithEmailAndPassword = (req, res) => __awaiter(void 0, void 0, void 0
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000,
+            path: "/",
         });
         return res.json({
             success: true,
             message: "Login successful",
             user: sanitizeUser(user),
+            token: token
         });
     }
     catch (error) {
@@ -78,6 +80,7 @@ const logout = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
             secure: isProd,
             sameSite: "none",
             maxAge: 0,
+            path: "/",
         });
         return res.json({
             success: true,
@@ -113,5 +116,5 @@ const getCurrentUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.AuthController = {
     loginWithEmailAndPassword,
     logout,
-    getCurrentUser, // ✅ add this
+    getCurrentUser,
 };

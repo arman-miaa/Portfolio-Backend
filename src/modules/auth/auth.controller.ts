@@ -44,12 +44,15 @@ const loginWithEmailAndPassword = async (req: Request, res: Response) => {
       secure: isProd,
       sameSite: isProd ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     return res.json({
       success: true,
       message: "Login successful",
       user: sanitizeUser(user),
+      token:token
+     
     });
   } catch (error) {
     console.error("Login error:", error);
@@ -63,8 +66,9 @@ const logout = async (_req: Request, res: Response) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: isProd,
-      sameSite: "none",
+      sameSite: isProd ? "none" : "lax", // ✅ login-এর মতোই consistent
       maxAge: 0,
+      path: "/",
     });
 
     return res.json({
@@ -105,5 +109,5 @@ const getCurrentUser = async (req: Request, res: Response) => {
 export const AuthController = {
   loginWithEmailAndPassword,
   logout,
-  getCurrentUser, // ✅ add this
+  getCurrentUser, 
 };
