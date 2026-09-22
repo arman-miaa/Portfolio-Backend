@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "postinstall": "sed -i \"s/let isDebugMode = !module.parent;/let isDebugMode = false;/g\" node_modules/pdf-parse/index.js",
     "build": "tsc && prisma generate",
     "start": "node dist/server.js",
     "lint": "npx eslint ./src",
