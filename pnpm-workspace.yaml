@@ -4,3 +4,5 @@ allowBuilds:
   bcrypt: true
   esbuild: true
   prisma: true
+packages:
+  - '.'
