@@ -12,6 +12,7 @@ const experience_route_1 = require("../modules/experiences/experience.route");
 const overview_route_1 = require("../modules/overview/overview.route");
 const chatbot_route_1 = require("../modules/chatbot/chatbot.route");
 const knowledge_route_1 = require("../modules/knowledge/knowledge.route");
+const aiSetting_route_1 = require("../modules/aiSetting/aiSetting.route");
 exports.router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -53,6 +54,10 @@ const moduleRoutes = [
     {
         path: "/knowledge",
         route: knowledge_route_1.knowledgeRoute,
+    },
+    {
+        path: "/ai-setting",
+        route: aiSetting_route_1.aiSettingRoute,
     },
 ];
 moduleRoutes.forEach((route) => {

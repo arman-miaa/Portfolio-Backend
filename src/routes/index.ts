@@ -9,6 +9,7 @@ import { experienceRoutes } from "../modules/experiences/experience.route";
 import { overviewRoute } from "../modules/overview/overview.route";
 import { chatbotRoute } from "../modules/chatbot/chatbot.route";
 import { knowledgeRoute } from "../modules/knowledge/knowledge.route";
+import { aiSettingRoute } from "../modules/aiSetting/aiSetting.route";
 
 
 export const router = Router();
@@ -53,6 +54,10 @@ const moduleRoutes = [
   {
     path: "/knowledge",
     route: knowledgeRoute,
+  },
+  {
+    path: "/ai-setting",
+    route: aiSettingRoute,
   },
 ];
 
